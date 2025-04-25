@@ -20,9 +20,12 @@ def findduck(gifhyApiKey):
     r = requests.get(url)
     return r.json()
 
-def postduck(duckurl,discordwebhook):
-    webhook = SyncWebhook.from_url(discordwebhook)
-    webhook.send(duckurl)
+def postduck(message,discordwebhook):
+    data = {
+        "content" : message,
+    }
+    return requests.post(discordwebhook, json = data)
+
 
 def turnArrayIntoString(array):
     returnstring = ""
