@@ -25,7 +25,7 @@ def postduckdiscord(message,discordwebhook):
     data = {
         "content" : message,
     }
-    return requests.post(url=webhook, headers=headers, json = data)
+    return requests.post(url=discordwebhook, headers=headers, json = data)
 
 def postduckgoogle(message,webhook):
     headers = {"Content-Type": "application/json; charset=UTF-8"}
