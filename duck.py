@@ -4,11 +4,11 @@ import json
 import random
 import argparse
 import requests
-from discord import SyncWebhook
 
 def getArgs():
     args = argparse.ArgumentParser(prog="Duck Daily")
     args.add_argument("-a", "--apikeys")
+    args.add_argument("-g", "--google", help="Send message webhook formatted for google chat not discord.")
     return args.parse_args()
 
 def getApiKey(apifile):
@@ -20,12 +20,19 @@ def findduck(gifhyApiKey):
     r = requests.get(url)
     return r.json()
 
-def postduck(message,discordwebhook):
+def postduckdiscord(message,discordwebhook):
+    headers = {"Content-Type": "application/json; charset=UTF-8"}
     data = {
         "content" : message,
     }
-    return requests.post(discordwebhook, json = data)
+    return requests.post(url=webhook, headers=headers, json = data)
 
+def postduckgoogle(message,webhook):
+    headers = {"Content-Type": "application/json; charset=UTF-8"}
+    data = {
+        "text" : message,
+    }
+    return requests.post(url=webhook, headers=headers, json = data)
 
 def turnArrayIntoString(array):
     returnstring = ""
@@ -37,7 +44,7 @@ if __name__ == '__main__':
     args = getArgs()
     keys = getApiKey(args.apikeys)
     gifhyApiKey = keys["gifhy"]
-    discord = keys["discord"]
+    webhook = keys["webhook"]
 
     duckgifs = findduck(gifhyApiKey)
     duckGifUrls = []
@@ -47,4 +54,7 @@ if __name__ == '__main__':
 
     print(duckstring)
 
-    postduck(duckstring,discord)
+    if args.google:
+        postduckgoogle(duckstring,webhook)
+    else:
+        postduckdiscord(duckstring,webhook)
