@@ -9,6 +9,7 @@ def getArgs():
     args = argparse.ArgumentParser(prog="Duck Daily")
     args.add_argument("-a", "--apikeys")
     args.add_argument("-g", "--google", help="Send message webhook formatted for google chat not discord.")
+    args.add_argument("--showoff",action="store_true", help="inclue github link in post")
     return args.parse_args()
 
 def getApiKey(apifile):
@@ -51,6 +52,9 @@ if __name__ == '__main__':
     for duck in duckgifs["data"]:
         duckGifUrls.append(duck["embed_url"])
     duckstring =  turnArrayIntoString(duckGifUrls)
+
+    if args.showoff:
+        duckstring = duckstring + "\nhttps://github.com/dylanbuel/duckaday"
 
     print(duckstring)
 
