@@ -16,7 +16,7 @@ def getApiKey(apifile):
         return json.load(file)
     
 def findduck(gifhyApiKey):
-    url = "https://api.giphy.com/v1/gifs/search?api_key=" + gifhyApiKey +"&q=duck&limit=5&offset=" + str(random.randint(0, 256)) + "&rating=g&lang=en&bundle=messaging_non_clips"
+    url = "https://api.giphy.com/v1/gifs/search?api_key=" + gifhyApiKey +"&q=duck&limit=1&offset=" + str(random.randint(0, 256)) + "&rating=g&lang=en&bundle=messaging_non_clips"
     r = requests.get(url)
     return r.json()
 
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     args = getArgs()
     keys = getApiKey(args.apikeys)
     gifhyApiKey = keys["gifhy"]
-    discord = keys["discord"]
+    discord = keys["webhook"]
 
     duckgifs = findduck(gifhyApiKey)
     duckGifUrls = []
